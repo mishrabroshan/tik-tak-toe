@@ -1,120 +1,137 @@
-from tkinter import Label,Button,Tk
-from tkinter.messagebox import showinfo,askokcancel
-from itertools import permutations
-import os
-import sys
-
-y=""
-x=2
-
-player1 = []
-player2 = []
-
-def restartgame():
-    global player1,player2,x
-    
-    b1.config(command= lambda : operate(b1, 1), text=".")
-    b2.config(command= lambda : operate(b2, 2), text=".")
-    b3.config(command= lambda : operate(b3, 3), text=".")
-    b4.config(command= lambda : operate(b4, 4), text=".")
-    b5.config(command= lambda : operate(b5, 5), text=".")
-    b6.config(command= lambda : operate(b6, 6), text=".")
-    b7.config(command= lambda : operate(b7, 7), text=".")
-    b8.config(command= lambda : operate(b8, 8), text=".")
-    b9.config(command= lambda : operate(b9, 9), text=".")
-    
-    player1 = []
-    player2 = []
-    x = 2
-    
-    
-def checkwin(player1,player2):
-     
-    pattern1 = permutations([1,2,3])
-    pattern2 = permutations([4,5,6])
-    pattern3 = permutations([7,8,9])
-    pattern4 = permutations([1,4,7])
-    pattern5 = permutations([2,5,8])
-    pattern6 = permutations([3,6,9])
-    pattern7 = permutations([1,5,9])
-    pattern8 = permutations([3,5,7])
-     
- 
-    for i in pattern1,pattern2,pattern3,pattern4,pattern5,pattern6,pattern7,pattern8:
-        for j in list(i):
-            play_1 = all(elem in player1 for elem in j)
-            play_2 = all(elem in player2 for elem in j)
-            if play_1 == True:
-                showinfo("HURRAY!!!!!!!", "player 1 win")
-                if askokcancel("Restart Game", "Do You Want to Play Again"):
-                    restartgame()
-                break
-            elif play_2 == True:
-                showinfo("HURRAY!!!!!!!", "player 2 win")
-                if askokcancel("Restart Game", "Do You Want to Play Again"):
-                    restartgame()
-                break
-            else:
-                pass
-             
-            
-             
-        
-def operate(button, Number):
-    global x
-    global player1,player2
-    
-    if x % 2 == 0:
-        player1.append(Number)
-        button.config(text="X")
-
-    else:
-        player2.append(Number)
-        button.config(text="O")
-        
-        
-    x += 1
-    button.config(command= lambda : None)
-    checkwin(player1, player2)
-    
-    
+from tkinter import *
+from tkinter.messagebox import showinfo,askyesno,showwarning
 
 root = Tk()
+root.title("Tic Tac Toe")
+root.config(bg="White")
 
-LPlayer = Label(root, text="PLAYER 1 :- X", font="Arial 12")
-LPlayer.grid(row=0,column=1)
+switch = 2
+player1 = []
+player2 = []
+players = []
+allbutton = []
 
-LPlayer2 = Label(root, text="PLAYER 2 : O", font="Arial 12")
-LPlayer2.grid(row=0,column=2)
+title = Label(root,text="TIC TAC TOE",font="Jokerman 30", bg="White", fg="Brown")
+title.pack(pady=10)
 
-b1 = Button(root, text=".", width=3, font="Arial 50")
-b2 = Button(root, text=".", width=3, font="Arial 50")
-b3 = Button(root, text=".", width=3, font="Arial 50")
-b4 = Button(root, text=".", width=3, font="Arial 50")
-b5 = Button(root, text=".", width=3, font="Arial 50")
-b6 = Button(root, text=".", width=3, font="Arial 50")
-b7 = Button(root, text=".", width=3, font="Arial 50")
-b8 = Button(root, text=".", width=3, font="Arial 50")
-b9 = Button(root, text=".", width=3, font="Arial 50")
+for i in range(2):
+        con = Frame(root, bg="White")
+        con.pack()
+        temp = "Player " + str(i+1) + " : "
+        l = Label(con,text=temp, bg="White", font="Arial 10 bold")
+        l.pack(side=LEFT, padx=5, pady=10)
+        e = Entry(con)
+        e.pack(side=LEFT, padx=5)
+        players.append(e)
 
-b1.config(command= lambda : operate(b1, 1))
-b2.config(command= lambda : operate(b2, 2))
-b3.config(command= lambda : operate(b3, 3))
-b4.config(command= lambda : operate(b4, 4))
-b5.config(command= lambda : operate(b5, 5))
-b6.config(command= lambda : operate(b6, 6))
-b7.config(command= lambda : operate(b7, 7))
-b8.config(command= lambda : operate(b8, 8))
-b9.config(command= lambda : operate(b9, 9))
+        
+current = Label(root, text="Current Turn : X", bg="White", font="Arial 10")
+current.pack(padx = 5, pady = 5)
 
-b1.grid(row=1, column=0)
-b2.grid(row=1, column=1)
-b3.grid(row=1, column=2)
-b4.grid(row=2, column=0)
-b5.grid(row=2, column=1)
-b6.grid(row=2, column=2)
-b7.grid(row=3, column=0)
-b8.grid(row=3, column=1)
-b9.grid(row=3, column=2)
+btncintainermain = Frame(root, bg="White")
+for i in range(3):
+    row = Frame(btncintainermain,bg="White")
+    for j in range(3):
+        btn = Button(row,text=".",font="Arial 50", width=3, fg="Red")
+        btn.pack(side=LEFT, padx=2, pady=2)
+        allbutton.append(btn)
+    row.pack()
+btncintainermain.pack(padx=10, pady=10)
+
+allbutton[0].config(command= lambda : operate(allbutton[0],1))
+allbutton[1].config(command= lambda : operate(allbutton[1],2))
+allbutton[2].config(command= lambda : operate(allbutton[2],3))
+allbutton[3].config(command= lambda : operate(allbutton[3],4))
+allbutton[4].config(command= lambda : operate(allbutton[4],5))
+allbutton[5].config(command= lambda : operate(allbutton[5],6))
+allbutton[6].config(command= lambda : operate(allbutton[6],7))
+allbutton[7].config(command= lambda : operate(allbutton[7],8))
+allbutton[8].config(command= lambda : operate(allbutton[8],9))
+
+root.withdraw()
+root.update_idletasks()   
+x = (root.winfo_screenwidth() - root.winfo_reqwidth()) / 2
+y = (root.winfo_screenheight() - root.winfo_reqheight()) / 2
+root.geometry("+%d+%d" % (x, y))
+root.deiconify()
+
+def operate(b,number):
+    global switch,player1,player2,players
+    
+    msg = "No one Wins!!! Try Again"
+    
+    if not (players[0].get() and players[1].get()):
+        showwarning("Warning", "Warning No Names Provided")
+    
+    b.config(command= lambda : None)
+    winpattern = [
+        [1,2,3],
+        [4,5,5],
+        [7,8,9],
+        [1,4,7],
+        [2,5,8],
+        [3,6,9],
+        [1,5,9],
+        [3,5,7]
+        ]
+    
+    if switch%2==0:
+        b.config(text="X")
+        player1.append(number)
+        current.config(text="Current Turn : O :") 
+        for i in winpattern:
+            play1win = all(elem in player1 for elem in i)
+            if play1win:
+                if not players[0].get():
+                    msg = "Player 1 win"
+                else:
+                    msg = players[0].get() + " win"
+                over(msg)
+                return 
+    else:
+        b.config(text="O")
+        player2.append(number)
+        current.config(text="Current Turn : X :")
+        for i in winpattern:
+            play2win = all(elem in player2 for elem in i)
+            if play2win:
+                if not players[1].get():
+                    msg = "Player 2 win"
+                else:
+                    msg = players[1].get() + " win"
+                over(msg)
+                return
+    switch += 1
+    if switch == 11:
+        over(msg)
+        
+def over(msg):
+    global root
+    showinfo("Game Over", msg)
+    if askyesno("Game Over", "Play Again"):
+        restart()
+    else:
+        root.destroy()
+        
+def restart():
+    global player1,player2,allbutton,switch
+    player1 = []
+    player2 = []
+    
+    switch = 2
+    
+    for b in allbutton:
+        b.config(text=".")
+    
+    allbutton[0].config(command= lambda : operate(allbutton[0],1))
+    allbutton[1].config(command= lambda : operate(allbutton[1],2))
+    allbutton[2].config(command= lambda : operate(allbutton[2],3))
+    allbutton[3].config(command= lambda : operate(allbutton[3],4))
+    allbutton[4].config(command= lambda : operate(allbutton[4],5))
+    allbutton[5].config(command= lambda : operate(allbutton[5],6))
+    allbutton[6].config(command= lambda : operate(allbutton[6],7))
+    allbutton[7].config(command= lambda : operate(allbutton[7],8))
+    allbutton[8].config(command= lambda : operate(allbutton[8],9))
+    
 
 root.mainloop()
