@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import Tk,Label,Frame,Entry,Button,LEFT
 from tkinter.messagebox import showinfo,askyesno,showwarning
 
 root = Tk()
