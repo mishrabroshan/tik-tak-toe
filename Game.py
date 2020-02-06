@@ -23,8 +23,7 @@ for i in range(2):
         e = Entry(con)
         e.pack(side=LEFT, padx=5)
         players.append(e)
-
-        
+   
 current = Label(root, text="Current Turn : X", bg="White", font="Arial 10")
 current.pack(padx = 5, pady = 5)
 
@@ -56,13 +55,10 @@ root.geometry("+%d+%d" % (x, y))
 root.deiconify()
 
 def operate(b,number):
-    global switch,player1,player2,players
-    
-    msg = "No one Wins!!! Try Again"
-    
+    global switch,player1,player2,players  
+    msg = "No one Wins!!! Try Again"  
     if not (players[0].get() and players[1].get()):
-        showwarning("Warning", "Warning No Names Provided")
-    
+        showwarning("Warning", "Warning No Names Provided")    
     b.config(command= lambda : None)
     winpattern = [
         [1,2,3],
@@ -73,8 +69,7 @@ def operate(b,number):
         [3,6,9],
         [1,5,9],
         [3,5,7]
-        ]
-    
+        ]   
     if switch%2==0:
         b.config(text="X")
         player1.append(number)
@@ -116,13 +111,10 @@ def over(msg):
 def restart():
     global player1,player2,allbutton,switch
     player1 = []
-    player2 = []
-    
-    switch = 2
-    
+    player2 = []    
+    switch = 2   
     for b in allbutton:
-        b.config(text=".")
-    
+        b.config(text=".")  
     allbutton[0].config(command= lambda : operate(allbutton[0],1))
     allbutton[1].config(command= lambda : operate(allbutton[1],2))
     allbutton[2].config(command= lambda : operate(allbutton[2],3))
@@ -133,5 +125,4 @@ def restart():
     allbutton[7].config(command= lambda : operate(allbutton[7],8))
     allbutton[8].config(command= lambda : operate(allbutton[8],9))
     
-
 root.mainloop()
